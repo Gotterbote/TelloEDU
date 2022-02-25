@@ -12,14 +12,13 @@ print(tello.get_battery())
 tello.enable_mission_pads()
 tello.set_mission_pad_detection_direction(0)
 tello.takeoff()
-sleep(1)
-tello.set_speed(25)
 
-tello.move_down(20)
-sleep(2)
+tello.set_speed(100)
+tello.move_down(50)
 
 pad = tello.get_mission_pad_id()
 print("The Mission Pad Number is: " + str(pad))
+sleep(.25)
 
 
 while observedDistance < maxDistance:
