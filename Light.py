@@ -1,4 +1,5 @@
 # new file
+# import cv2
 from djitellopy import Tello
 from time import sleep
 
@@ -14,6 +15,9 @@ tello.takeoff()
 sleep(1)
 tello.set_speed(25)
 
+tello.move_down(20)
+sleep(2)
+
 pad = tello.get_mission_pad_id()
 print("The Mission Pad Number is: " + str(pad))
 
@@ -22,12 +26,12 @@ while observedDistance < maxDistance:
 
     #   if pad == -1:
     print("No Mission Pad Detected")
-    print("I'll keep searching")
+    print("Still searching")
     distance = 25
     tello.move_forward(distance)
 
     observedDistance = observedDistance + distance
-    print("Distance traveled is " + str(distance))
+    print("Distance traveled is " + str(observedDistance))
     pad = tello.get_mission_pad_id()
 
     # if pad == 1:
@@ -70,13 +74,13 @@ while observedDistance < maxDistance:
     #
     #     print("Shutting system down")
     #     tello.disable_mission_pads()
-    #     telloland()
+    #     tello.land()
 
 if observedDistance >= 500:
     print("Range is out of bounds!")
-    print("Abort mission and land now!")
+    print("Abort mission/land now!")
 
 else:
-    print("Total distance traveled is " + str(observedDistance))
+    print("Total distance traveled was" + str(observedDistance))
 
 tello.end()
