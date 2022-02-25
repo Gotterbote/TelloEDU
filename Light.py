@@ -1,7 +1,6 @@
 # new file
 from djitellopy import Tello
 from time import sleep
-import cv2
 
 tello = Tello()
 distance = 0
@@ -21,7 +20,7 @@ print("The Mission Pad Number is: " + str(pad))
 
 while observedDistance < maxDistance:
 
- #   if pad == -1:
+    #   if pad == -1:
     print("No Mission Pad Detected")
     print("I'll keep searching")
     distance = 25
