@@ -1,10 +1,10 @@
 # new file
 import time
-
 from djitellopy import Tello
 
 from codetiming import Timer
 
+start = time.time()
 t = Timer(name="time1")
 t.start()
 
@@ -16,6 +16,9 @@ tello.connect()
 print(tello.get_battery())
 tello.enable_mission_pads()
 tello.set_mission_pad_detection_direction(0)
+print("Preflight check parameters " + (str(t.stop()) + " seconds"))
+
+t.start()
 tello.takeoff()
 t.stop()
 
@@ -31,68 +34,33 @@ time.sleep(.25)
 
 while observedDistance < maxDistance:
 
-    #   if pad == -1:
     t.start()
-    print("No Mission Pad Detected")
-    print("Still searching")
-    distance = 25
-    tello.move_forward(distance)
+    if pad == -1:
+        print("No Mission Pad Detected")
+        print("Still searching")
+        distance = 25
+        tello.move_forward(distance)
 
     observedDistance = observedDistance + distance
     print("Distance traveled is " + str(observedDistance))
     pad = tello.get_mission_pad_id()
     t.stop()
 
-    # if pad == 1:
-    #     print("The Mission Pad Number is: " + str(pad))
-    #     tello.move_forward(100)
-    #     distance = distance + 1
-    #     sleep(3)
-    #     print("Distance traveled is " + str(distance))
-    #     pad = tello.get_mission_pad_id()
-    #
-    # if pad == 2:
-    #     print("The Mission Pad Number is: " + str(pad))
-    #     tello.move_forward(100)
-    #     distance = distance + 1
-    #     sleep(3)
-    #     print("Distance traveled is " + str(distance))
-    #     pad = tello.get_mission_pad_id()
-
     if pad == 3:
         t.start()
         print("The Mission Pad Number is: " + str(pad))
         print("Time to take a little break!")
         tello.land()
-        # sleep(1)
-        # tello.takeoff()
-        # tello.rotate_clockwise(180)
-        # sleep(1)
-        # tello.move_forward(100)
-        # distance = distance + 1
-        # sleep(3)
-        # print("Distance traveled is " + str(distance))
-        # pad = tello.get_mission_pad_id()
         t.stop()
         break
-
-    # if pad == 4:
-    #     print("MISSION SUCCESSFUL")
-    #     tello.send_command_with_return("downvision 1")
-    #     img = tello.get_frame_read().frame
-    #     img = cv2.resize(img(360, 240))
-    #     cv2.imshow("Success", img)
-    #     cv2.waitKey(1)
-    #
-    #     print("Shutting system down")
-    #     tello.disable_mission_pads()
-    #     tello.land()
 
 if observedDistance >= 500:
     print("Range is out of bounds!")
     print("Abort mission/land now!")
 
 else:
+    end = time.time()
     print("Total distance traveled was " + str(observedDistance))
-
+    print("Total elapsed time was " + str(end - start))
 tello.end()
+quit()
