@@ -25,6 +25,7 @@ t.stop()
 t.start()
 tello.set_speed(100)
 tello.move_down(50)
+# tello.move_up(100)
 t.stop()
 
 pad = tello.get_mission_pad_id()
@@ -37,7 +38,6 @@ while observedDistance < maxDistance:
     t.start()
     if pad == -1:
         print("No Mission Pad Detected")
-        print("Still searching")
         distance = 25
         tello.move_forward(distance)
 
@@ -49,14 +49,14 @@ while observedDistance < maxDistance:
     if pad == 3:
         t.start()
         print("The Mission Pad Number is: " + str(pad))
-        print("Time to take a little break!")
         tello.land()
         t.stop()
         break
 
 if observedDistance >= 500:
+    end = time.time()
     print("Range is out of bounds!")
-    print("Abort mission/land now!")
+    print("Total elapsed time was " + str(end - start))
 
 else:
     end = time.time()
