@@ -4,6 +4,7 @@ from djitellopy import Tello
 
 from codetiming import Timer
 
+count = 0
 start = time.time()
 t = Timer(name="time1")
 t.start()
@@ -24,8 +25,8 @@ t.stop()
 
 t.start()
 tello.set_speed(100)
-tello.move_down(50)
-# tello.move_up(100)
+#tello.move_down(50)
+tello.move_up(50)
 t.stop()
 
 pad = tello.get_mission_pad_id()
@@ -46,12 +47,35 @@ while observedDistance < maxDistance:
     pad = tello.get_mission_pad_id()
     t.stop()
 
-    if pad == 3:
-        t.start()
-        print("The Mission Pad Number is: " + str(pad))
-        tello.land()
-        t.stop()
-        break
+    while pad == 3:
+        if count < 1:
+            t.start()
+            print("The Mission Pad Number is: " + str(pad))
+            tello.move_down(50)
+            pad = tello.get_mission_pad_id()
+            tello.move_forward(distance)
+            observedDistance = observedDistance + distance
+            print("Distance traveled is " + str(observedDistance))
+            count = count + 1
+            t.stop()
+
+        elif count < 2:
+            t.start()
+            print("The Mission Pad Number is: " + str(pad))
+            tello.move_down(50)
+            pad = tello.get_mission_pad_id()
+            tello.move_forward(distance)
+            observedDistance = observedDistance + distance
+            print("Distance traveled is " + str(observedDistance))
+            count = count + 1
+            t.stop()
+
+        else:
+            t.start()
+            print("The Mission Pad Number is: " + str(pad))
+            tello.land()
+            t.stop()
+            break
 
 if observedDistance >= 500:
     end = time.time()
