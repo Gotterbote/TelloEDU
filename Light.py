@@ -1,10 +1,10 @@
 # new file
 import time
 from djitellopy import Tello
-
+import cv2
 from codetiming import Timer
 
-count = 0
+count = 1
 start = time.time()
 t = Timer(name="time1")
 t.start()
@@ -25,8 +25,8 @@ t.stop()
 
 t.start()
 tello.set_speed(100)
-#tello.move_down(50)
-tello.move_up(50)
+# tello.move_down(50)
+# tello.move_up(50)
 t.stop()
 
 pad = tello.get_mission_pad_id()
@@ -73,6 +73,11 @@ while observedDistance < maxDistance:
         else:
             t.start()
             print("The Mission Pad Number is: " + str(pad))
+            tello.send_command_with_return("downvision 1")
+            tello.streamon()
+            img = tello.get_frame_read().frame
+            cv2.imshow("Bottom View", img)
+            cv2.waitKey(5)
             tello.land()
             t.stop()
             break
